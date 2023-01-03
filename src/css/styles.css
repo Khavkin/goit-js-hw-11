@@ -5,6 +5,10 @@ img {
   object-fit: cover;
 }
 
+.is-hidden {
+  display: none;
+}
+
 .header {
   height: 50px;
   position: fixed;
@@ -12,6 +16,12 @@ img {
   background-color: #c0c0c0;
   top: 0;
   left: 0;
+}
+
+.form-wrapper {
+  width: fit-content;
+  padding: 15px;
+  margin: 0 auto;
 }
 
 .gallery-wrap {

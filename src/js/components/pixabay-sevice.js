@@ -13,11 +13,12 @@ const pixabayParams = {
 };
 
 export default class PixabayService {
-  constructor({ searchQuery = '', currentPage = 1, resultsPerPage = 10 }) {
+  constructor({ searchQuery = '', currentPage = 1, resultsPerPage = 40 }) {
     this.searchQuery = searchQuery;
     this.currentPage = currentPage;
     this.resultsPerPage = resultsPerPage;
     this.totalHits = 0;
+    pixabayParams.per_page = resultsPerPage;
   }
 
   get query() {
