@@ -1,3 +1,19 @@
+:root {
+  --dark-primary-color: #00796b;
+  --light-primary-color: #b2dfdb;
+  --primary-color: #009688;
+  --text-color: #ffffff;
+  --accent-color: #ffc107;
+  --primary-text-color: #212121;
+  --secondary-text-color: #757575;
+  --divider-color: #bdbdbd;
+}
+
+body {
+  background-color: var(--primary-color);
+  padding-top: 20px;
+}
+
 img {
   display: block;
   width: 100%;
@@ -10,12 +26,14 @@ img {
 }
 
 .header {
-  height: 50px;
-  position: fixed;
+  height: 70px;
   width: 100%;
-  background-color: #c0c0c0;
+  background-color: var(--dark-primary-color);
+  position: fixed;
   top: 0;
   left: 0;
+  display: flex;
+  align-items: center;
 }
 
 .form-wrapper {
@@ -23,28 +41,56 @@ img {
   padding: 15px;
   margin: 0 auto;
 }
+.search-form {
+  display: flex;
+  justify-content: center;
+}
+.input-query {
+  outline: none;
+  border-radius: 5px;
+}
+.btn-submit {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  cursor: pointer;
+  margin-left: 5px;
+  font-weight: 500;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 23%), 0 3px 10px rgb(0 0 0 / 16%);
+}
 
 .gallery-wrap {
   width: 1200px;
   margin: 50px auto 0;
+  padding-bottom: 10px;
 }
 
 .gallery {
   display: flex;
-  gap: 10px;
+  gap: 20px;
   flex-wrap: wrap;
   padding: 15px;
-  background-color: aliceblue;
+  align-items: center;
+  justify-content: center;
 }
 
 .photo-card {
-  flex-basis: calc((100% - 20px) / 3);
+  flex-basis: calc((100% - 40px) / 3);
   text-decoration: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #000;
-  color: #fff;
+  background-color: var(--light-primary-color);
+  color: var(--primary-text-color);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.75);
+}
+
+.photo-card:hover {
+  box-shadow: 4px 4px 15px 1px rgba(0, 0, 0, 0.75);
 }
 
 .info {
@@ -61,4 +107,27 @@ img {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.no-more {
+  width: fit-content;
+  padding: 30px;
+  margin: 0 auto;
+  background-color: var(--accent-color);
+  color: var(--primary-text-color);
+  font-weight: 700;
+  font-size: 24px;
+  border-radius: 10px;
+}
+
+.load-more {
+  display: block;
+  margin: 0 auto;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  cursor: pointer;
+  font-weight: 500;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 23%), 0 3px 10px rgb(0 0 0 / 16%);
 }

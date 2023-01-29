@@ -18,6 +18,7 @@ export default class PixabayService {
     this.currentPage = currentPage;
     this.resultsPerPage = resultsPerPage;
     this.totalHits = 0;
+    this.responceStatus = 0;
     pixabayParams.per_page = resultsPerPage;
   }
 
@@ -30,6 +31,14 @@ export default class PixabayService {
     pixabayParams.q = newQuery;
   }
 
+  set PerPage(newCount) {
+    this.resultsPerPage = newCount;
+    pixabayParams.per_page = newCount;
+  }
+  get PerPage() {
+    return this.resultsPerPage;
+  }
+
   async fetch() {
     // this.currentPage = 1;
     // pixabayParams.page = 1;
@@ -37,23 +46,33 @@ export default class PixabayService {
     const config = {
       params: pixabayParams,
     };
-    const responce = await axios.get(BASE_URL, config);
-    this.totalHits = parseInt(responce.data.totalHits);
-    return responce;
+    try {
+      const responce = await axios.get(BASE_URL, config);
+
+      this.totalHits = parseInt(responce.data.totalHits);
+      this.responceStatus = responce.status;
+      return responce.data;
+    } catch (e) {
+      throw e;
+    }
   }
 
   async fetchNext() {
     //console.log('currentPage=', this.currentPage);
     pixabayParams.page = this.currentPage + 1;
     //console.log(pixabayParams);
-    const responce = await this.fetch();
-    this.totalHits = parseInt(responce.data.totalHits);
-    //console.dir(responce);
+    try {
+      const data = await this.fetch();
+      this.totalHits = parseInt(data.totalHits);
+      //console.dir(responce);
 
-    if (responce.status === 200) {
-      this.currentPage += 1;
+      if (this.responceStatus === 200) {
+        this.currentPage += 1;
+      }
+      return data;
+    } catch (e) {
+      throw e;
     }
-    return responce;
   }
 
   resetPage() {

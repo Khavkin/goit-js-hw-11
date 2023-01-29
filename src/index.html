@@ -12,23 +12,26 @@
       <div class="form-wrapper">
         <form class="search-form" id="search-form">
           <input
+            class="input-query"
             type="text"
             name="searchQuery"
             autocomplete="off"
             placeholder="Search images..."
           />
-          <button type="submit">Search</button>
+          <button class="btn-submit" type="submit" disabled>Search</button>
         </form>
       </div>
     </header>
     <main>
-      <div class="gallery-wrap">
-        <section class="gallery">
-          <!-- Карточки изображений -->
-        </section>
+      <section class="gallery-section">
+        <div class="gallery-wrap">
+          <div class="gallery">
+            <!-- Карточки изображений -->
+          </div>
 
-        <button type="button" class="load-more is-hidden">Load more</button>
-      </div>
+          <button type="button" class="load-more">Load more</button>
+        </div>
+      </section>
     </main>
 
     <script src="./js/index.js" type="module"></script>
