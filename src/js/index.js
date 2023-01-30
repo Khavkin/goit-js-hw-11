@@ -170,6 +170,8 @@ async function searchPicture() {
     top: 0,
     left: 0,
   });
+  checkBtnLoadMoreStatus();
+  checkNoMoreMessageVisibility();
 
   try {
     const data = await pixabayService.fetch();
@@ -179,6 +181,7 @@ async function searchPicture() {
         'Sorry, there are no images matching your search query. Please try again.'
       );
       refs.inputQuery.value = '';
+
       return;
     }
     Notify.success(`Hooray! We found ${pixabayService.totalHits} images.`);
