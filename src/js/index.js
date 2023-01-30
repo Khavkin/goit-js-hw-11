@@ -18,6 +18,7 @@ import Spinner from './components/spinner/spinner';
 import ButtonUp from './components/buttonup/buttonup';
 import ButtonSetup from './components/buttonsetup/button-setup';
 import LocalStorageService from './components/localstorage/local-storage';
+import History from './components/history/history';
 
 const STORAGE_KEY = 'pixabay-service';
 
@@ -29,7 +30,7 @@ const refs = {
   noMoreMessage: createNoMoreMessage(),
   inputQuery: document.querySelector('.input-query'),
   btnSubmit: document.querySelector('.btn-submit'),
-  history: null,
+  //history: null,
 };
 refs.galleryWrap.append(refs.noMoreMessage);
 
@@ -57,6 +58,15 @@ const spinner = new Spinner();
 
 init();
 
+// const history = new History({
+//   inputElement: refs.inputQuery,
+//   history: paramsApp.history,
+// });
+
+// history.onClick = value => {
+//   refs.inputQuery.value = value;
+// };
+
 const buttonUP = new ButtonUp({});
 
 const buttonSetup = new ButtonSetup('.btn-submit', {
@@ -70,7 +80,8 @@ buttonSetup.onSubmit = onSetupButtonSubmit;
 refs.searchForm.addEventListener('submit', handlerSubmit);
 refs.btnLoadMore.addEventListener('click', handlerLoadMore);
 refs.inputQuery.addEventListener('input', handlerOnInputQuery);
-refs.inputQuery.addEventListener('click', handleOnInputQueryClick);
+
+//refs.inputQuery.addEventListener('click', handleOnInputQueryClick);
 
 window.addEventListener('scroll', throttle(handlerOnScroll, 500));
 
@@ -100,16 +111,22 @@ function init() {
 async function handlerSubmit(event) {
   event.preventDefault();
 
-  console.dir(event.target.elements.searchQuery);
+  const value = event.target.elements.searchQuery.value.trim();
+
+  //console.dir(event.target.elements.searchQuery);
+  //console.log('value=', value, value.length);
+
+  if (value.length === 0) return;
+
   spinner.showSpinner();
 
-  pixabayService.query = event.target.elements.searchQuery.value.trim();
+  pixabayService.query = value;
 
-  if (
-    paramsApp.saveHistory &&
-    !paramsApp.history.includes(pixabayService.query)
-  ) {
-    paramsApp.history.push(pixabayService.query);
+  if (paramsApp.saveHistory && !paramsApp.history.includes(value)) {
+    paramsApp.history.push(value);
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //history.addLineToHistory(value);
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     LocalStorageService.save(JSON.stringify(paramsApp));
   }
 
@@ -210,12 +227,14 @@ function prepareGalleryMarkup(data) {
 
 function showResult(data) {
   const markup = prepareGalleryMarkup(data);
+
   refs.gallery.insertAdjacentHTML('beforeend', markup);
+
   simpleLightBox.refresh();
 }
 
 function checkBtnLoadMoreStatus() {
-  console.log(pixabayService.totalHits, refs.gallery.children.length);
+  // console.log(pixabayService.totalHits, refs.gallery.children.length);
 
   //refs.btnLoadMore.disabled = status.shouldLoad();
   if (
@@ -236,6 +255,12 @@ function getCardHeight() {
 function smoothScroll(event) {
   if (refs.gallery.children.length === 0) return;
   if (window.getComputedStyle(document.body).overflow === 'hidden') return;
+  console.dir(event.target);
+  if (event.target.nodeName === 'LI') {
+    console.log('if');
+    return;
+  }
+  console.log('after return');
 
   const cardHeight = getCardHeight();
   // console.log(cardHeight);
@@ -338,7 +363,7 @@ async function onSetupButtonSubmit(result = {}) {
 
 function handlerOnScroll(event) {
   const cardHeight = getCardHeight();
-  console.log(window.scrollY);
+  // console.log(window.scrollY);
   if (
     document.body.offsetHeight -
       (window.scrollY + cardHeight + window.innerHeight) <
@@ -346,65 +371,80 @@ function handlerOnScroll(event) {
     paramsApp.infinityScroll &&
     cardHeight != 0
   ) {
-    console.log('loadMore');
+    //console.log('loadMore');
     loadMore();
   }
 }
+
 function handlerOnInputQuery(event) {
-  if (event.target.value.trim().length > 0) refs.btnSubmit.disabled = false;
-  else refs.btnSubmit.disabled = true;
-  hideHistory();
+  // if (event.target.value.trim().length > 0) refs.btnSubmit.disabled = false;
+  // else refs.btnSubmit.disabled = true;
+  //history.hideHistory();
 }
 
 function handleOnInputQueryClick() {
   if (paramsApp.saveHistory && paramsApp.history.length > 0) {
-    showHistory();
+    //  history.showHistory();
   }
 }
 
-function showHistory() {
-  console.log('showHistory');
+// function showHistory() {
+//   console.log('showHistory');
 
-  if (!refs.history) {
-    createHistoryElement();
-  }
+//   if (!refs.history) {
+//     createHistoryElement();
+//   }
 
-  if (refs.history.style.display === 'block') hideHistory();
-  else displayHistory();
-}
+//   if (refs.history.style.display === 'block') hideHistory();
+//   else displayHistory();
+// }
 
-function createHistoryElement() {
-  console.log('showHistory create');
+// function createHistoryElement() {
+//   console.log('showHistory create');
 
-  const parentStyle = window.getComputedStyle(refs.inputQuery);
-  const parentRect = refs.inputQuery.getBoundingClientRect();
+//   const parentStyle = window.getComputedStyle(refs.inputQuery);
+//   const parentRect = refs.inputQuery.getBoundingClientRect();
 
-  console.dir(parentRect);
+//   console.dir(parentRect);
 
-  refs.history = document.createElement('div');
-  const history = refs.history;
-  history.style.width = `${parentRect.width - 2}px`;
-  history.style.height = '50px';
-  history.style.backgroundColor = parentStyle.backgroundColor;
-  history.style.position = 'absolute';
-  history.style.top = `${parentRect.bottom + 2}px`;
-  history.style.left = `${parentRect.left}px`;
-  history.style.borderRadius = parentStyle.borderRadius;
+//   refs.history = document.createElement('ul');
+//   const history = refs.history;
+//   history.style.width = `${parentRect.width - 2}px`;
+//   history.style.height = '100px';
+//   history.style.backgroundColor = parentStyle.backgroundColor;
+//   history.style.position = 'absolute';
+//   history.style.top = `${parentRect.bottom + 2}px`;
+//   history.style.left = `${parentRect.left}px`;
+//   history.style.overflow = 'auto';
+//   history.style.cursor = 'pointer';
+//   history.style.margin = '0';
+//   history.style.listStyle = 'none';
+//   history.style.padding = '2px';
+//   // history.style.borderRadius = parentStyle.borderRadius;
 
-  history.style.display = 'none';
-  console.dir(refs.history);
+//   history.style.display = 'none';
+//   console.dir(refs.history.style);
 
-  refs.inputQuery.after(history);
-}
+//   refs.inputQuery.after(history);
 
-function displayHistory() {
-  console.dir(refs.history);
-  refs.history.style.display = 'block';
-}
+//   paramsApp.history.forEach(element => {
+//     addLineToHistory(element);
+//   });
+// }
 
-function hideHistory() {
-  console.dir(refs.history);
-  refs.history.style.display = 'none';
-}
+// function displayHistory() {
+//   console.dir(refs.history);
+//   refs.history.style.display = 'block';
+// }
 
-function updateHistory() {}
+// function hideHistory() {
+//   console.dir(refs.history);
+//   refs.history.style.display = 'none';
+// }
+
+// function updateHistory() {}
+
+// function addLineToHistory(value) {
+//   const tmpLi = `<li>${value}</>`;
+//   refs.history.insertAdjacentHTML('afterbegin', tmpLi);
+// }
