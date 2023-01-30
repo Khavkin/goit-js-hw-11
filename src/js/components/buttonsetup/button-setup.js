@@ -8,7 +8,7 @@ export default class ButtonSetup {
   #parentButton;
 
   constructor(parentButton = '', setupObject = {}) {
-    console.log(setupObject);
+    //console.log(setupObject);
     this.setupObject = { ...setupObject };
     this.#parentButton = parentButton;
 
@@ -106,12 +106,7 @@ export default class ButtonSetup {
  />
           Бесконечный скролл
         </label>
-        <label class="bts-modal__label" for="saveHistory">
-          <input type="checkbox" name="saveHistory" id="saveHistory" ${
-            this.setupObject.saveHistory ? 'checked' : ''
-          }/>
-          Сохранять историю поиска
-        </label>
+        
         <div class="bts-modal__buttons-wrap">
           <button class="bts-modal__button" type="button" id="cancel">
             Отменить
@@ -139,11 +134,10 @@ export default class ButtonSetup {
   handlerOnSubmit(event) {
     event.preventDefault();
 
-    const { countOfImages, saveHistory, infinityScroll } =
-      event.currentTarget.elements;
+    const { countOfImages, infinityScroll } = event.currentTarget.elements;
 
     this.setupObject.countOfImages = parseInt(countOfImages.value);
-    this.setupObject.saveHistory = saveHistory.checked;
+    // this.setupObject.saveHistory = saveHistory.checked;
     this.setupObject.infinityScroll = infinityScroll.checked;
 
     this.hideBackDrop();

@@ -18,7 +18,7 @@ import Spinner from './components/spinner/spinner';
 import ButtonUp from './components/buttonup/buttonup';
 import ButtonSetup from './components/buttonsetup/button-setup';
 import LocalStorageService from './components/localstorage/local-storage';
-import History from './components/history/history';
+// import History from './components/history/history';
 
 const STORAGE_KEY = 'pixabay-service';
 
@@ -36,8 +36,8 @@ refs.galleryWrap.append(refs.noMoreMessage);
 
 let paramsApp = {
   infinityScroll: false,
-  saveHistory: false,
-  history: [],
+  // saveHistory: false,
+  // history: [],
   countOfImages: 40,
 };
 
@@ -71,7 +71,7 @@ const buttonUP = new ButtonUp({});
 
 const buttonSetup = new ButtonSetup('.btn-submit', {
   infinityScroll: paramsApp.infinityScroll,
-  saveHistory: paramsApp.saveHistory,
+  // saveHistory: paramsApp.saveHistory,
   countOfImages: paramsApp.countOfImages,
 });
 
@@ -96,7 +96,7 @@ window.addEventListener('keydown', smoothScroll, {
 function init() {
   LocalStorageService.storageKey = STORAGE_KEY;
   const tmp = LocalStorageService.load();
-  console.log(tmp);
+  // console.log(tmp);
   if (tmp) {
     paramsApp = { ...paramsApp, ...JSON.parse(tmp) };
   } else {
@@ -191,7 +191,7 @@ async function searchPicture() {
 
     //!*****************
 
-    console.dir(refs.gallery);
+    // console.dir(refs.gallery);
   } catch (error) {
     Notify.failure(error.message);
   }
@@ -255,12 +255,12 @@ function getCardHeight() {
 function smoothScroll(event) {
   if (refs.gallery.children.length === 0) return;
   if (window.getComputedStyle(document.body).overflow === 'hidden') return;
-  console.dir(event.target);
+  // console.dir(event.target);
   if (event.target.nodeName === 'LI') {
-    console.log('if');
+    // console.log('if');
     return;
   }
-  console.log('after return');
+  // console.log('after return');
 
   const cardHeight = getCardHeight();
   // console.log(cardHeight);
@@ -273,20 +273,20 @@ function smoothScroll(event) {
       switch (event.key) {
         case 'ArrowDown':
         case 'PageDown':
-          console.log(event.key);
+          // console.log(event.key);
           direction = 1;
           break;
         case 'ArrowUp':
         case 'PageUp':
-          console.log(event.key);
+          // console.log(event.key);
           direction = -1;
           break;
         case 'Home':
-          console.log(event.key);
+          // console.log(event.key);
           direction = -1000;
           break;
         case 'End':
-          console.log(event.key);
+          // console.log(event.key);
           direction = 1000;
           break;
 
@@ -342,12 +342,12 @@ async function onSetupButtonSubmit(result = {}) {
 
   paramsApp = { ...paramsApp, ...result };
 
-  if (!paramsApp.saveHistory) paramsApp.history = [];
+  // if (!paramsApp.saveHistory) paramsApp.history = [];
 
   LocalStorageService.save(JSON.stringify(paramsApp));
 
   if (pixabayService.PerPage != paramsApp.countOfImages) {
-    console.log(pixabayService.PerPage, paramsApp.countOfImages);
+    // console.log(pixabayService.PerPage, paramsApp.countOfImages);
     pixabayService.PerPage = paramsApp.countOfImages;
     pixabayService.currentPage = 1;
 

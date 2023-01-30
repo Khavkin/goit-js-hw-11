@@ -83,7 +83,7 @@ export default class ButtonUp {
     );
 
     document.body.append(button);
-    console.dir(button);
+    // console.dir(button);
   }
 
   checkCurrentPosition() {

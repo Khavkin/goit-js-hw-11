@@ -42,7 +42,7 @@ export default class PixabayService {
   async fetch() {
     // this.currentPage = 1;
     // pixabayParams.page = 1;
-    console.log(pixabayParams);
+    // console.log(pixabayParams);
     const config = {
       params: pixabayParams,
     };

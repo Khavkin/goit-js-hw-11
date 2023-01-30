@@ -11,7 +11,7 @@ export default class LocalStorageService {
     return null;
   }
   static save(value) {
-    console.log(value);
+    // console.log(value);
     if (this.storageKey) {
       try {
         window.localStorage.setItem(this.storageKey, value);
