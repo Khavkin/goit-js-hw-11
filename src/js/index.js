@@ -349,7 +349,7 @@ async function onSetupButtonSubmit(result = {}) {
 
   LocalStorageService.save(JSON.stringify(paramsApp));
 
-  if (pixabayService.PerPage != paramsApp.countOfImages) {
+  if (pixabayService.PerPage !== paramsApp.countOfImages) {
     // console.log(pixabayService.PerPage, paramsApp.countOfImages);
     pixabayService.PerPage = paramsApp.countOfImages;
     pixabayService.currentPage = 1;
